@@ -5,41 +5,65 @@
  */
 
 (function( global, $ ) {
-	
+
 	var codiad = global.codiad;
-	
+
 	//////////////////////////////////////////////////////////////////////
 	// CTRL Key Bind
 	//////////////////////////////////////////////////////////////////////
-	
+
 	$.ctrl = function(key, callback, args) {
-		
+
 		$(document).keydown(function(e) {
-			
+
 			if ( !args ) args = [];
 			if ( e.keyCode == key && ( e.ctrlKey || e.metaKey ) ) {
-				
+
 				if ( ! ( e.ctrlKey && e.altKey ) ) {
-					
+
 					callback.apply( this, args );
 					return false;
 				}
 			}
 		});
 	};
-	
+
 	$(function() {
-		
+
 		codiad.keybindings.init();
 	});
-	
+
 	//////////////////////////////////////////////////////////////////////
 	// Bindings
 	//////////////////////////////////////////////////////////////////////
-	
+
 	codiad.keybindings = {
-		
+
 		bindings: [
+      {
+        name: 'Autocomplete',
+        bindKey: {
+          win: 'Ctrl-Space',
+          mac: 'Command-Space'
+        },
+        exec: function( e ) {
+
+          // I dunno why this works but it just does
+          // This is so that it inserts the snippet immediately
+          if (codiad.editor.activeInstance.completer == null) {
+            codiad.editor.activeInstance.commands.commands.startAutocomplete.exec(e);
+            codiad.editor.activeInstance.completer.cancelContextMenu();
+          }
+          codiad.editor.activeInstance.completer.autoInsert = true;
+          codiad.editor.activeInstance.completer.autoSelect = true;
+          codiad.editor.activeInstance.completer.exactMatch = true;
+          codiad.editor.activeInstance.completer.showPopup(e);
+          //codiad.editor.activeInstance.completer.openPopup(e, 'con');
+
+          //console.log(codiad.editor.activeInstance);
+
+        }
+      },
 			{
 				name: 'Find',
 				bindKey: {
@@ -47,7 +71,7 @@
 					mac: 'Command-F'
 				},
 				exec: function( e ) {
-					
+
 					codiad.editor.openSearch( 'find' );
 				}
 			},
@@ -58,7 +82,7 @@
 					mac: 'Command-L'
 				},
 				exec: function( e ) {
-					
+
 					codiad.editor.open_goto();
 				}
 			},
@@ -79,7 +103,7 @@
 					mac: 'Command-up'
 				},
 				exec: function( e ) {
-					
+
 					codiad.active.move( 'up' );
 				}
 			},
@@ -90,76 +114,76 @@
 					mac: 'Command-R'
 				},
 				exec: function( e ) {
-					
+
 					codiad.editor.openSearch( 'replace' );
 				}
 			}
 		],
-		
+
 		init: function() {
-			
+
 			// Active List Next [CTRL+DOWN] //////////////////////////////
 			$.ctrl( '40', function() {
-				
+
 				codiad.active.move('down');
 			});
-			
+
 			// Active List Previous [CTRL+UP] ////////////////////////////
 			$.ctrl( '38', function() {
-				
+
 				codiad.active.move('up');
 			});
-			
+
 			// Autocomplete [CTRL+SPACE] /////////////////////////////////
 			$.ctrl( '32', function() {
-				
+
 				codiad.autocomplete.suggest();
 			});
-			
+
 			// Close Modals //////////////////////////////////////////////
 			$( document ).keyup( function( e ) {
-				
+
 				if( e.keyCode == 27 ) {
-					
+
 					codiad.modal.unload();
 				}
 			});
-			
+
 			// Find [CTRL+F] /////////////////////////////////////////////
 			$.ctrl( '70', function() {
-				
+
 				codiad.editor.openSearch( 'find' );
 			});
-			
+
 			// Find [CTRL+L] /////////////////////////////////////////////
 			$.ctrl( '76', function() {
-				
+
 				codiad.editor.open_goto();
 			});
-			
+
 			// Open in browser [CTRL+O] //////////////////////////////////
 			$.ctrl( '79', function() {
-				
+
 				codiad.active.openInBrowser();
 			});
-			
+
 			// Replace [CTRL+R] //////////////////////////////////////////
 			$.ctrl( '82', function() {
-				
+
 				codiad.editor.openSearch( 'replace' );
 			});
-			
+
 			// Save [CTRL+S] /////////////////////////////////////////////
 			$.ctrl( '83', function() {
-				
+
 				codiad.active.save();
 			});
-			
+
 			// Search Files [CTRL+G] /////////////////////////////////////
 			$.ctrl( '71', function() {
-				
+
 				if( codiad.finder ) {
-					
+
 					codiad.finder.expandFinder();
 				}
 			});
