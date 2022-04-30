@@ -3,6 +3,7 @@ define("ace/snippets/yaml",["require","exports","module"],function(e,t,n){"use s
 snippet articaine\n	articaine 4% 1:100000 adrenaline \n\
 snippet mepivicaine\n	mepivicaine 3% \n\
 snippet lignocaine\n	lignocaine 2% 1:80000 adrenaline \n\
+snippet citanest\n	3% Citanest Dental with Octapressin \n\
 \
 snippet allergies\n	Allergies: ${1:None}\n\
 snippet consent\n	Patient expressed intention to proceed with \n\
@@ -28,6 +29,14 @@ snippet amoxicillin\n	Amoxicillin 500mg (${1:20}) 1 tablet 8 hourly PO\n\
 snippet diclofenac\n	Diclofenac 50mg (${1:50}) 1 tablet 8 hourly PO PRN\n\
 snippet pforte\n	Panadeine forte (${1:20}) 2 tablets 4-6 hourly PO PRN\n\
 snippet oxycodone\n	Oxycodone HCl 5mg (${1:20}) 1 tablet 6 hourly PO PRN\n\
+\
+snippet exo \n\
+	${1:\
+- Warned risk of oroantral communication}\
+	${2:\n\
+	- Warned risk of sectional or surgical extraction}\
+	${3:\n\
+	- Warned risk of alveolar osteitis}\n\
 \
 snippet t_westfund\n\
 	Time out procedure observed\n\
@@ -93,6 +102,7 @@ snippet gist-full\n	{% gist ${1:gist_id} ${2:filename} %}\n\nsnippet gist-short\
 snippet img\n	{% img ${1:class} ${2:URL} ${3:width} ${4:height} ${5:title_text} ${6:alt_text} %}\n\n\
 snippet youtube\n	{% youtube ${1:video_id} %}\n\n# The quote should appear only once in the text. It is inherently part of it.\n# See http://octopress.org/docs/plugins/pullquote/ for more info.\n\n\
 snippet pullquote\n	{% pullquote %}\n	${1:text} {" ${2:quote} "} ${3:text}\n	{% endpullquote %}\n\
+\
                   ',t.scope="yaml"});                (function() {
                     window.require(["ace/snippets/yaml"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
