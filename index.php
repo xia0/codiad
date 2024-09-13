@@ -18,7 +18,7 @@ $themes = Common::readDirectory(THEMES);
 // Theme
 $theme = THEME;
 if( isset( $_SESSION['theme'] ) ) {
-	
+
 	$theme = $_SESSION['theme'];
 }
 
@@ -41,54 +41,54 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 		<?php
 		// Load System CSS Files
 		$stylesheets = array("jquery.toastmessage.css","reset.css","fonts.css","screen.css");
-		
+
 		foreach( $stylesheets as $sheet ) {
-			
+
 			if( file_exists( THEMES . "/". $theme . "/".$sheet ) ) {
-				
+
 				echo( '<link rel="stylesheet" href="themes/' . $theme . '/' . $sheet . '">' );
 			} else {
-				
+
 				echo( '<link rel="stylesheet" href="themes/default/'.$sheet.'?v=' . get_version() . '">' );
 			}
 		}
-		
-		// Load Component CSS Files    
+
+		// Load Component CSS Files
 		foreach( $components as $component ) {
-			
+
 			if( file_exists( THEMES . "/". $theme . "/" . $component . "/screen.css" ) ) {
-				
+
 				echo('<link rel="stylesheet" href="themes/'.$theme.'/'.$component.'/screen.css">');
 			} else {
-				
+
 				if( file_exists( "themes/default/" . $component . "/screen.css" ) ) {
-					
+
 					echo( '<link rel="stylesheet" href="themes/default/' . $component . '/screen.css?v=' . get_version() . '">' );
 				} else {
-					
+
 					if( file_exists( COMPONENTS . "/" . $component . "/screen.css" ) ) {
-						
+
 						echo( '<link rel="stylesheet" href="components/' . $component . '/screen.css">' );
 					}
 				}
 			}
 		}
-		
-		// Load Plugin CSS Files    
+
+		// Load Plugin CSS Files
 		foreach( $plugins as $plugin ) {
-			
+
 			if( file_exists( THEMES . "/". $theme . "/" . $plugin . "/screen.css" ) ) {
-				
+
 				echo( '<link rel="stylesheet" href="themes/'.$theme.'/'.$plugin.'/screen.css">' );
 			} else {
-				
+
 				if( file_exists( "themes/default/" . $plugin . "/screen.css" ) ) {
-					
+
 					echo( '<link rel="stylesheet" href="themes/default/' . $plugin . '/screen.css">' );
 				} else {
-					
+
 					if( file_exists( PLUGINS . "/" . $plugin . "/screen.css" ) ) {
-						
+
 						echo( '<link rel="stylesheet" href="plugins/' . $plugin . '/screen.css">' );
 					}
 				}
@@ -101,13 +101,13 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 		<script>
 			let i18n = (
 				function( lang ) {
-					
+
 					return function( word, args ) {
 						let x;
 						let returnw = ( word in lang ) ? lang[word] : word;
 						for( x in args ) {
-							
-							returnw = returnw.replace( "%{"+x+"}%", args[x] );   
+
+							returnw = returnw.replace( "%{"+x+"}%", args[x] );
 						}
 						return returnw;
 					}
@@ -131,23 +131,23 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 		<script src="js/instance.js?v=<?php echo time(); ?>"></script>
 		<div id="message"></div>
 		<?php
-		
+
 		//////////////////////////////////////////////////////////////////
 		// NOT LOGGED IN
 		//////////////////////////////////////////////////////////////////
-		
+
 		if( ! isset( $_SESSION['user'] ) ) {
-			
+
 			$path = rtrim(str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']),"/");
 			$config = file_exists($path . "/config.php");
 			$active = file_exists($path . "/data/active.php");
-			
+
 			if( ! $config ) {
-				
+
 				// Installer
 				require_once('components/install/view.php');
 			} else {
-				
+
 				// Login form
 				?>
 				<form id="login" method="post" style="position: fixed; width: 350px; top: 30%; left: 50%; margin-left: -175px; padding: 35px;">
@@ -162,7 +162,7 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 						<input type="password" name="password">
 						<span class="icon-eye in-field-icon-right hide_field">
 					</label>
-					
+
 					<div class="language-selector">
 						<label>
 							<span class="icon-picture login-icon"></span>
@@ -173,16 +173,16 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 							<?php
 							include 'languages/code.php';
 							foreach( $themes as $theme ) {
-								
+
 								if( file_exists( THEMES . "/" . $theme . "/theme.json" ) ) {
-									
+
 									$data = file_get_contents(THEMES."/" . $theme . "/theme.json");
 									$data = json_decode($data,true);
 									?><option value="<?php echo $theme;?>" <?php if( $theme == THEME ) { echo "selected"; } ?>>
 										<?php if( $data[0]['name'] != '' ) { echo $data[0]['name']; } else { echo $theme; } ?>
 									</option>
 									<?php
-								} 
+								}
 							};
 							?>
 						</select>
@@ -194,10 +194,10 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 							<?php
 							include 'languages/code.php';
 							foreach( glob( "languages/*.php" ) as $filename ) {
-								
+
 								$lang_code = str_replace( array( "languages/", ".php" ), "", $filename );
 								if( ! isset( $languages[$lang_code] ) ) {
-									
+
 									continue;
 								}
 								$lang_disp = ucfirst( strtolower( $languages[$lang_code] ) );
@@ -216,14 +216,14 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 				<script src="components/user/init.js"></script>
 				<script>
 					$( ".hide_field" ).on( "click", function( e ) {
-						
+
 						let password = document.querySelector( "input[name='password']" );
-						
+
 						if( password.type == "password" ) {
-							
+
 							password.type = "text";
 						} else {
-							
+
 							password.type = "password";
 						}
 					});
@@ -231,15 +231,15 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 				<?php
 			}
 		} else {
-			
+
 			//////////////////////////////////////////////////////////////////
 			// AUTHENTICATED
 			//////////////////////////////////////////////////////////////////
-			
+
 			define( "USER_WORKSPACE", WORKSPACE . '/' . preg_replace( '/[^\w-]/', '', strtolower( $_SESSION["user"] ) ) );
-			
+
 			if( ! is_dir( USER_WORKSPACE ) ) {
-				
+
 				mkdir( USER_WORKSPACE, 0755 );
 			}
 			?>
@@ -257,7 +257,7 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 							<div id="finder-wrapper">
 								<a id="finder-options" class="icon icon-cog"></a>
 								<div id="finder-inner-wrapper">
-									<input type="text" id="finder"></input>
+									<input type="text" id="finder" />
 								</div>
 								<ul id="finder-options-menu" class="options-menu">
 									<li class="chosen"><a data-option="left_prefix"><?php i18n("Prefix"); ?></a></li>
@@ -273,38 +273,38 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 					<div class="sb-left-content">
 						<div id="context-menu" data-path="" data-type="">
 							<?php
-							
+
 							////////////////////////////////////////////////////////////
 							// Load Context Menu
 							////////////////////////////////////////////////////////////
-							
+
 							foreach( $context_menu as $menu_item => $data ) {
-								
+
 								if( $data['title'] == 'Break' ) {
-									
+
 									echo( '<hr class="' . $data['applies-to'] . '">' );
 								} else {
-									
+
 									echo( '<a class="' . $data['applies-to'] . '" onclick="' . $data['onclick'] . '"><span class="' . $data['icon'] . '"></span>' . get_i18n( $data['title'] ) . '</a>' );
 								}
-								
+
 							}
-							
+
 							foreach( $plugins as $plugin ) {
-								
+
 								if( file_exists( PLUGINS . "/" . $plugin . "/plugin.json" ) ) {
-									
+
 									$pdata = file_get_contents( PLUGINS . "/" . $plugin . "/plugin.json" );
 									$pdata = json_decode( $pdata, true );
-									
+
 									if( isset( $pdata[0]['contextmenu'] ) ) {
-										
+
 										foreach( $pdata[0]['contextmenu'] as $contextmenu ) {
-											
+
 											if( ( ! isset( $contextmenu['admin'] ) || ( $contextmenu['admin'] ) && checkAccess() ) || ! $contextmenu['admin'] ) {
-												
+
 												if( isset( $contextmenu['applies-to'] ) && isset( $contextmenu['action'] ) && isset( $contextmenu['icon'] ) && isset( $contextmenu['title'] ) ) {
-													
+
 													echo( '<hr class="' . $contextmenu['applies-to'] . '">' );
 													echo( '<a class="' . $contextmenu['applies-to'] . '" onclick="' . $contextmenu['action'] . '"><span class="' . $contextmenu['icon'] . '"></span>' . $contextmenu['title'] . '</a>' );
 												}
@@ -364,25 +364,25 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 							<span class="icon-doc-text"></span><?php i18n("Settings");?>
 						</a>
 						<?php
-						
+
 						////////////////////////////////////////////////////////////
 						// Load Plugins
 						////////////////////////////////////////////////////////////
-						
+
 						foreach( $plugins as $plugin ) {
-							
+
 							if( file_exists( PLUGINS . "/" . $plugin . "/plugin.json" ) ) {
-								
+
 								$pdata = file_get_contents( PLUGINS . "/" . $plugin . "/plugin.json" );
 								$pdata = json_decode( $pdata, true );
 								if( isset( $pdata[0]['bottombar'] ) ) {
-								
+
 									foreach( $pdata[0]['bottombar'] as $bottommenu ) {
-										
+
 										if( ( ! isset( $bottommenu['admin'] ) || ( $bottommenu['admin'] ) && checkAccess()) || ! $bottommenu['admin'] ) {
-											
+
 											if( isset( $bottommenu['action'] ) && isset( $bottommenu['icon'] ) && isset( $bottommenu['title'] ) ) {
-												
+
 												echo( '<div class="divider"></div>' );
 												echo( '<a onclick="' . $bottommenu['action'] . '"><span class="' . $bottommenu['icon'] . '"></span>' . $bottommenu['title'] . '</a>' );
 											}
@@ -397,7 +397,7 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 						<div class="divider"></div>
 						<a id="current-mode">
 							<span class="icon-layout"></span>
-						</a>                
+						</a>
 						<div class="divider"></div>
 						<div id="current-file"></div>
 					</div>
@@ -419,47 +419,47 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 					</div>
 					<div class="sb-right-content">
 						<?php
-						
+
 						////////////////////////////////////////////////////////////
 						// Load Right Bar
 						////////////////////////////////////////////////////////////
-						
+
 						foreach( $right_bar as $item_rb => $data ) {
-							
+
 							if( ! isset( $data['admin'] ) ) {
-								
+
 								$data['admin'] = false;
 							}
 							if( $data['title'] == 'break' ) {
-								
+
 								if( ! $data['admin'] || $data['admin'] && checkAccess() ) {
-									
+
 									echo( "<hr>" );
 								}
 							} elseif( $data['title'] != 'break' && $data['title'] != 'pluginbar' && $data['onclick'] == '' ) {
-								
+
 								if( ! $data['admin'] || $data['admin'] && checkAccess() ) {
-									
+
 									echo( "<hr><div class='sb-right-category'>" . get_i18n( $data['title'] ) . "</div>" );
 								}
 							} elseif( $data['title'] == 'pluginbar' ) {
-								
+
 								if( ! $data['admin'] || $data['admin'] && checkAccess() ) {
-									
+
 									foreach( $plugins as $plugin ) {
-										
+
 										if( file_exists( PLUGINS . "/" . $plugin . "/plugin.json" ) ) {
-											
+
 											$pdata = file_get_contents( PLUGINS . "/" . $plugin . "/plugin.json" );
 											$pdata = json_decode( $pdata, true );
 											if( isset( $pdata[0]['rightbar'] ) ) {
-												
+
 												foreach( $pdata[0]['rightbar'] as $rightbar ) {
-													
+
 													if( ( ! isset( $rightbar['admin'] ) || ( $rightbar['admin'] ) && checkAccess()) || ! $rightbar['admin'] ) {
-														
+
 														if( isset( $rightbar['action'] ) && isset( $rightbar['icon'] ) && isset( $rightbar['title'] ) ) {
-															
+
 															echo( '<a onclick="' . $rightbar['action'] . '"><span class="' . $rightbar['icon'] . '"></span>' . get_i18n( $rightbar['title'] ) . '</a>' );
 														}
 													}
@@ -469,13 +469,13 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 									}
 								}
 							} else {
-								
+
 								if( ! $data['admin'] || $data['admin'] && checkAccess() ) {
-									
+
 									echo( '<a onclick="' . $data['onclick'] . '"><span class="' . $data['icon'] . ' bigger-icon"></span>'. get_i18n( $data['title'] ) . '</a>' );
 								}
 							}
-							
+
 						}
 					?>
 					</div>
@@ -491,40 +491,40 @@ if( defined( "SITE_NAME" ) && ! ( SITE_NAME === "" || SITE_NAME === null ) ) {
 			<div id="autocomplete">
 				<ul id="suggestions"></ul>
 			</div>
-			
+
 			<!-- ACE -->
 			<script src="components/editor/ace-editor/ace.js"></script>
 			<script src="components/editor/ace-editor/ext-language_tools.js"></script>
 			<script src="components/editor/ace-editor/ext-modelist.js"></script>
 			<script src="components/editor/ace-editor/ext-themelist.js"></script>
-			
+
 			<!-- Codiad System Variables -->
 			<script>
 				codiad.system.site_id = `<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>`;
 				codiad.system.session_id = `<?php echo SESSION_ID;?>`;
 			</script>
-			
+
 			<!-- COMPONENTS -->
 			<?php
-			
+
 			//////////////////////////////////////////////////////////////////
 			// LOAD COMPONENTS
 			//////////////////////////////////////////////////////////////////
-			
+
 			// JS
 			foreach( $components as $component ) {
-				
+
 				if( file_exists( COMPONENTS . "/" . $component . "/init.js" ) ) {
-					
-					echo( '<script src="components/' . $component . '/init.js"></script>"' );
+
+					echo( '<script src="components/' . $component . '/init.js"></script>' );
 				}
 			}
-			
+
 			foreach( $plugins as $plugin ) {
-				
+
 				if( file_exists( PLUGINS . "/" . $plugin . "/init.js" ) ) {
-					
-					echo( '<script src="plugins/' . $plugin . '/init.js"></script>"' );
+
+					echo( '<script src="plugins/' . $plugin . '/init.js"></script>' );
 				}
 			}
 		}
